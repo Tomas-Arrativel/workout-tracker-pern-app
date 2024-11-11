@@ -2,8 +2,19 @@ const express = require("express");
 const usersRoutes = require("./src/users/routes");
 const exercisesRoutes = require("./src/exercises/routes");
 
+const session = require("express-session");
+
 const app = express();
 const PORT = 3000;
+
+app.use(
+	session({
+		secret: "your-secret-key", // replace with a secure key in production
+		resave: false,
+		saveUninitialized: false,
+		cookie: { maxAge: 1000 * 60 * 120 }, // 2 hour
+	})
+);
 
 app.use(express.json());
 
