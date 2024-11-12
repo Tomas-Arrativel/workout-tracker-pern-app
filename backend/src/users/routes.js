@@ -1,21 +1,28 @@
 const { Router } = require("express");
 const controller = require("./controller");
 
-const router = Router();
+const { validateUser } = require("../../middleware/validator");
+const { validationResult } = require("express-validator");
 
-/* Typical Routes for Users Controller
-GET /profile — Retrieves the logged-in user's profile information.
-PUT /profile — Updates the logged-in user's profile information.
-PUT /password — Changes the user's password.
-POST /register — Registers a new user.
-POST /login — Logs in the user and returns a JWT token.
-DELETE /profile — Deletes the logged-in user's account. */
+const router = Router();
 
 router.get("/", controller.getUsers);
 router.get("/logout", controller.logout);
 router.get("/profile", controller.getProfile);
 
-router.post("/", controller.createUser);
+// Create the user with validations
+router.post("/", validateUser, (req, res) => {
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		return res.status(400).json({ errors: errors.array() });
+	}
+
+	// If validation passes, proceed with user creation
+	controller.createUser(req, res);
+});
+
 router.post("/login", controller.logUser);
+
+router.put("/password", controller.changePassword);
 
 module.exports = router;

@@ -114,6 +114,7 @@ const logUser = async (req, res) => {
 };
 
 const logout = (req, res) => {
+	// Destroy the session
 	req.session.destroy((err) => {
 		if (err) {
 			console.error(err);
@@ -126,10 +127,84 @@ const logout = (req, res) => {
 
 const getProfile = (req, res) => {
 	const user = req.session.user;
-	if (req.session.user) {
-		res.send(`Welcome to your profile, ${user.username}`);
-	} else {
-		res.status(403).send("You don't have access to this site, log in");
+
+	try {
+		// If the user is logged in, the user object shouldn't be empty
+		if (user) {
+			res.status(200).json({ user });
+		} else {
+			res.status(401).json({ message: "Access denied. Please log in." });
+		}
+	} catch (error) {
+		console.error(error);
+		return res.status(500).json({
+			message: "An error occurred while getting the profile",
+			error: true,
+		});
+	}
+};
+
+const changePassword = async (req, res) => {
+	const { oldPassword, newPassword } = req.body;
+
+	try {
+		const user = req.session.user;
+
+		if (user) {
+			// Obtaining hashed password from the database
+			const getUserResults = await pool.query(queries.getUserById, [
+				user.user_id,
+			]);
+			const userDb = getUserResults.rows[0];
+
+			// Check if the password is the same as the registered one
+			const isPasswordValid = await bcrypt.compare(
+				oldPassword,
+				userDb.password
+			);
+
+			// If it is correct,
+			if (isPasswordValid) {
+				// and if the new password isn't null or length isn't lower than 4
+				if (newPassword !== null && newPassword.length >= 4) {
+					// change the password
+					const encryptedPassword = await bcrypt.hash(newPassword, 10);
+
+					// Change password query
+					const changeResults = await pool.query(queries.changePassword, [
+						encryptedPassword,
+						user.user_id,
+					]);
+
+					return res
+						.status(200)
+						.json({ message: "Password changed successfully" });
+				} else {
+					// Length lower than 4
+					return res.status(400).json({
+						message: "Password must be at least 4 characters long",
+						error: true,
+					});
+				}
+			} else {
+				// Password not correct
+				return res
+					.status(400)
+					.json({ message: "Invalid password, please try again", error: true });
+			}
+		} else {
+			// User not logged in
+			return res.status(401).json({
+				message: "You need to log in to change your password",
+				error: true,
+			});
+		}
+	} catch (error) {
+		console.error(error);
+		return res.status(500).json({
+			message: "An error occurred while changing the password",
+			error: true,
+		});
 	}
 };
 
@@ -139,4 +214,5 @@ module.exports = {
 	logUser,
 	logout,
 	getProfile,
+	changePassword,
 };
