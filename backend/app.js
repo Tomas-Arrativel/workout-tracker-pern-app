@@ -1,6 +1,7 @@
 const express = require("express");
 const usersRoutes = require("./src/users/routes");
 const exercisesRoutes = require("./src/exercises/routes");
+const routinesRoutes = require("./src/routines/routes");
 
 const session = require("express-session");
 
@@ -24,5 +25,6 @@ app.get("/", (req, res) => {
 
 app.use("/api/users", usersRoutes);
 app.use("/api/exercises", exercisesRoutes);
+app.use("/api/routines", routinesRoutes);
 
 app.listen(PORT, () => console.log(`App listening on port ${PORT}`));
