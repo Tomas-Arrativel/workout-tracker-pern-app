@@ -35,4 +35,14 @@ const validateUser = [
 		.withMessage("Password must be at least 4 characters long"),
 ];
 
-module.exports = { validateUser };
+const validateRoutine = [
+	// Routine must be at least 3 characters and alphanumeric
+	body("name")
+		.isLength({ min: 3 })
+		.withMessage("Routine must be at least 3 characters long"),
+
+	// day must be a number
+	body("day").isNumeric().withMessage("The day can't be undefined"),
+];
+
+module.exports = { validateUser, validateRoutine };
