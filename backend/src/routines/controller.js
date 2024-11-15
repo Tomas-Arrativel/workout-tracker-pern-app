@@ -116,8 +116,138 @@ const createRoutine = async (req, res) => {
 	}
 };
 
+const deleteRoutine = async (req, res) => {
+	const user = req.session.user;
+	const { routineId } = req.body;
+
+	try {
+		// Check if the user is logged in
+		if (!user) {
+			return res.status(401).json({
+				message: "You can't delete a routine since you aren't logged in!",
+				error: true,
+			});
+		}
+
+		// Check if the routine is from the user
+		const userRoutine = await pool.query(queries.checkRoutineUser, [
+			user.user_id,
+			routineId,
+		]);
+		if (userRoutine.rows.length === 0) {
+			return res.status(401).json({
+				message: "This isn't a routine that you have created!",
+				error: true,
+			});
+		}
+
+		// If everything is correct, delete the routine
+		const deleteResult = await pool.query(queries.deleteRoutine, [routineId]);
+		return res
+			.status(201)
+			.json({ message: "Routine deleted successfully", routineId });
+	} catch (error) {
+		console.error(error);
+		return res.status(500).json({
+			message: "Error while deleting the routine",
+			error: true,
+		});
+	}
+};
+
+const changeRoutineName = async (req, res) => {
+	const user = req.session.user;
+	const { name, routineId } = req.body;
+
+	try {
+		// If user isn't logged in throw an error
+		if (!user) {
+			return res.status(401).json({
+				message: "You can't update a routine since you aren't logged in!",
+				error: true,
+			});
+		}
+
+		// Check if the routine is from the user
+		const userRoutine = await pool.query(queries.checkRoutineUser, [
+			user.user_id,
+			routineId,
+		]);
+
+		if (userRoutine.rows.length === 0) {
+			return res.status(401).json({
+				message: "This isn't a routine that you have created!",
+				error: true,
+			});
+		}
+
+		// If there is no error, update the routine's name
+		const changeRoutineResult = await pool.query(queries.updateRoutineName, [
+			name,
+			routineId,
+		]);
+
+		return res
+			.status(201)
+			.json({ message: "Routine's name updated successfully", routineId });
+	} catch (error) {
+		console.error(error);
+		return res.status(500).json({
+			message: "Error while updating the name of the routine",
+			error: true,
+		});
+	}
+};
+
+const changeRoutineDay = async (req, res) => {
+	const user = req.session.user;
+	const { day, routineId } = req.body;
+
+	try {
+		// If user isn't logged in throw an error
+		if (!user) {
+			return res.status(401).json({
+				message: "You can't update a routine since you aren't logged in!",
+				error: true,
+			});
+		}
+
+		// Check if the routine is from the user
+		const userRoutine = await pool.query(queries.checkRoutineUser, [
+			user.user_id,
+			routineId,
+		]);
+
+		if (userRoutine.rows.length === 0) {
+			return res.status(401).json({
+				message: "This isn't a routine that you have created!",
+				error: true,
+			});
+		}
+
+		// If there is no error, update the routine's day
+		const changeRoutineResult = await pool.query(queries.updateRoutineDay, [
+			day,
+			routineId,
+		]);
+
+		return res
+			.status(201)
+			.json({ message: "Routine's day updated successfully", routineId });
+	} catch (error) {
+		console.error(error);
+		return res.status(500).json({
+			message: "Error while updating the day of the routine",
+			error: true,
+		});
+	}
+};
+
 module.exports = {
 	getRoutines,
 	getRoutinesByUser,
 	createRoutine,
+	changeRoutineName,
+	changeRoutineDay,
+	deleteRoutine,
 };

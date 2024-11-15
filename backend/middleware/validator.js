@@ -45,4 +45,23 @@ const validateRoutine = [
 	body("day").isNumeric().withMessage("The day can't be undefined"),
 ];
 
-module.exports = { validateUser, validateRoutine };
+const validateRoutinesName = [
+	// Routine must be at least 3 characters and alphanumeric
+	body("name")
+		.isLength({ min: 3 })
+		.withMessage("Routine must be at least 3 characters long"),
+];
+
+const validateRoutinesDay = [
+	// Routine must be at least 3 characters and alphanumeric
+	body("name")
+		.isLength({ min: 3 })
+		.withMessage("Routine must be at least 3 characters long"),
+];
+
+module.exports = {
+	validateUser,
+	validateRoutine,
+	validateRoutinesName,
+	validateRoutinesDay,
+};
