@@ -13,7 +13,9 @@ const getRoutines = async (req, res) => {
 		}
 
 		// Else return the obtained routines
-		return res.status(200).json(routinesResults.rows);
+		return res
+			.status(200)
+			.json({ routines: routinesResults.rows, error: false });
 	} catch (error) {
 		console.error(error);
 		return res
@@ -42,7 +44,9 @@ const getRoutinesByUser = async (req, res) => {
 			}
 
 			// Else return the routines
-			return res.status(200).json(routinesResults.rows);
+			return res
+				.status(200)
+				.json({ routines: routinesResults.rows, error: false });
 		} else {
 			//If he isn't logged in, send an error
 			return res.status(401).json({
@@ -65,26 +69,17 @@ const createRoutine = async (req, res) => {
 
 	try {
 		if (user) {
-			// Check if there is a routine with the name
-			const routineNamesResults = await pool.query(queries.checkRoutinesName, [
+			// Check if there is a routine with the name or the day
+			const conflictResult = await pool.query(queries.checkRoutineConflicts, [
 				user.user_id,
 				name,
-			]);
-			if (routineNamesResults.rows.length > 0) {
-				return res.status(404).json({
-					message: "There is a routine with that name. Change it",
-					error: true,
-				});
-			}
-
-			// Check if there is another routine for that day
-			const checkDayResults = await pool.query(queries.checkRoutinesDay, [
-				user.user_id,
 				day,
 			]);
-			if (checkDayResults.rows.length > 0) {
-				return res.status(404).json({
-					message: `Routine ${checkDayResults.rows[0].name} has that day associated to it`,
+
+			if (conflictResult.rows.length > 0) {
+				const conflict = conflictResult.rows[0];
+				return res.status(409).json({
+					message: `Conflict: A routine named "${conflict.name}" or assigned to day ${conflict.day} already exists.`,
 					error: true,
 				});
 			}
@@ -99,7 +94,7 @@ const createRoutine = async (req, res) => {
 			// Return a message when routine is created
 			return res
 				.status(201)
-				.json({ message: "Routine created successfully", routine: name });
+				.json({ message: "Routine created successfully", error: false });
 		} else {
 			//If user isnt logged in, send an error
 			return res.status(401).json({
@@ -144,8 +139,8 @@ const deleteRoutine = async (req, res) => {
 		// If everything is correct, delete the routine
 		const deleteResult = await pool.query(queries.deleteRoutine, [routineId]);
 		return res
-			.status(201)
-			.json({ message: "Routine deleted successfully", routineId });
+			.status(204)
+			.json({ message: "Routine deleted successfully", error: false });
 	} catch (error) {
 		console.error(error);
 		return res.status(500).json({
@@ -189,7 +184,7 @@ const changeRoutineName = async (req, res) => {
 
 		return res
 			.status(201)
-			.json({ message: "Routine's name updated successfully", routineId });
+			.json({ message: "Routine's name updated successfully", error: false });
 	} catch (error) {
 		console.error(error);
 		return res.status(500).json({
@@ -233,7 +228,7 @@ const changeRoutineDay = async (req, res) => {
 
 		return res
 			.status(201)
-			.json({ message: "Routine's day updated successfully", routineId });
+			.json({ message: "Routine's day updated successfully", error: false });
 	} catch (error) {
 		console.error(error);
 		return res.status(500).json({

@@ -54,9 +54,9 @@ const validateRoutinesName = [
 
 const validateRoutinesDay = [
 	// Routine must be at least 3 characters and alphanumeric
-	body("name")
-		.isLength({ min: 3 })
-		.withMessage("Routine must be at least 3 characters long"),
+	body("day")
+		.isInt({ min: 1, max: 7 })
+		.withMessage("The day must be a number between 1 and 7"),
 ];
 
 module.exports = {
