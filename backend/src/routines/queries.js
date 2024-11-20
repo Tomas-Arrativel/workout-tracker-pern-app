@@ -5,6 +5,8 @@ const checkRoutineConflicts = `SELECT * FROM routines
 															 WHERE user_id = $1 
 															 AND (name = $2 OR day = $3);`;
 
+const checkRoutineUser = `SELECT * FROM routines WHERE user_id = $1 AND routine_id = $2`;
+
 const updateRoutineName = `UPDATE routines SET 
 												   name = $1
 													 WHERE routine_id = $2`;
@@ -23,6 +25,7 @@ module.exports = {
 	getRoutinesByUser,
 	checkRoutinesName,
 	checkRoutineConflicts,
+	checkRoutineUser,
 	updateRoutineName,
 	updateRoutineDay,
 	createRoutine,

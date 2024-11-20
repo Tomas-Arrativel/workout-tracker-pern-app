@@ -59,9 +59,20 @@ const validateRoutinesDay = [
 		.withMessage("The day must be a number between 1 and 7"),
 ];
 
+const validateRoutineExercise = [
+	body("sets")
+		.isInt({ min: 1, max: 12 })
+		.withMessage("The sets must be a number between 1 and 12"),
+
+	body("reps")
+		.isInt({ min: 1, max: 40 })
+		.withMessage("The reps must be a number between 1 and 40"),
+];
+
 module.exports = {
 	validateUser,
 	validateRoutine,
 	validateRoutinesName,
 	validateRoutinesDay,
+	validateRoutineExercise,
 };
