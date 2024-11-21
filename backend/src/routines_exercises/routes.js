@@ -1,23 +1,32 @@
 const { Router } = require("express");
 const controller = require("./controller");
 
-const { validationResult } = require("express-validator");
-
+// middlewares
 const { validateRoutineExercise } = require("../../middleware/validator");
+const { checkAuth } = require("../../middleware/authValidator");
+const { handleValidationErrors } = require("../../middleware/validationErrors");
 
 const router = Router();
 
-router.get("/", controller.getExercisesByUser);
-router.post("/by-routine", controller.getExercisesByRoutine);
+// Get all exercises for a user
+router.get("/", checkAuth, controller.getExercisesByUser);
 
-router.post("/add", validateRoutineExercise, (req, res) => {
-	const errors = validationResult(req);
-	if (!errors.isEmpty()) {
-		return res.status(400).json({ errors: errors.array() });
-	}
+// Get exercises for a specific routine
+router.post("/by-routine", checkAuth, controller.getExercisesByRoutine);
 
-	// If validation passes, proceed with routine creation
-	controller.addExerciseToRoutine(req, res);
-});
+// Add an exercise to a routine
+router.post(
+	"/add",
+	checkAuth,
+	validateRoutineExercise,
+	handleValidationErrors,
+	controller.addExerciseToRoutine
+);
+
+// Edit an exercise in a routine
+router.put("/edit", checkAuth, controller.updateExerciseInRoutine);
+
+// Delete an exercise from a routine
+router.delete("/delete", checkAuth, controller.deleteExerciseInRoutine);
 
 module.exports = router;

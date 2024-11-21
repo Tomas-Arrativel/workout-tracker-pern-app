@@ -26,9 +26,26 @@ const checkRoutineExercise = `SELECT routine_exercise_id FROM routines_exercises
 const addExerciseToRoutine = `INSERT INTO routines_exercises (routine_id, exercise_id, sets, reps)
                               VALUES ($1, $2, $3, $4)`;
 
+const updateExerciseInRoutine = `UPDATE routines_exercises
+                                  SET
+                                    exercise_id = COALESCE($1, exercise_id),
+                                    sets = COALESCE($2, sets),
+                                    reps = COALESCE($3, reps)
+                                  WHERE
+                                    routine_id = $4
+                                    AND routine_exercise_id = $5
+                                RETURNING *`;
+
+const deleteExerciseInRoutine = `DELETE FROM routines_exercises
+                                 WHERE routine_id = $1 
+                                 AND routine_exercise_id = $2
+                                 RETURNING *`;
+
 module.exports = {
 	getExercisesByUser,
 	getExercisesByRoutine,
 	checkRoutineExercise,
 	addExerciseToRoutine,
+	updateExerciseInRoutine,
+	deleteExerciseInRoutine,
 };

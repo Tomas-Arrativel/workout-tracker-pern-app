@@ -8,43 +8,39 @@ const {
 } = require("../../middleware/validator");
 
 const { validationResult } = require("express-validator");
+const { handleValidationErrors } = require("../../middleware/validationErrors");
+const { checkAuth } = require("../../middleware/authValidator");
 
 const router = Router();
 
 router.get("/", controller.getRoutines);
-router.get("/my-routines", controller.getRoutinesByUser);
+router.get("/my-routines", checkAuth, controller.getRoutinesByUser);
 
-router.put("/name", validateRoutinesName, (req, res) => {
-	const errors = validationResult(req);
-	if (!errors.isEmpty()) {
-		return res.status(400).json({ errors: errors.array() });
-	}
+router.put(
+	"/name",
+	checkAuth,
+	validateRoutinesName,
+	handleValidationErrors,
+	controller.changeRoutineName
+);
 
-	// If validation passes, proceed with routine creation
-	controller.changeRoutineName(req, res);
-});
-
-router.put("/day", validateRoutinesDay, (req, res) => {
-	const errors = validationResult(req);
-	if (!errors.isEmpty()) {
-		return res.status(400).json({ errors: errors.array() });
-	}
-
-	// If validation passes, proceed with routine creation
-	controller.changeRoutineDay(req, res);
-});
+router.put(
+	"/day",
+	checkAuth,
+	validateRoutinesDay,
+	handleValidationErrors,
+	controller.changeRoutineDay
+);
 
 // Create routine with validations
-router.post("/", validateRoutine, (req, res) => {
-	const errors = validationResult(req);
-	if (!errors.isEmpty()) {
-		return res.status(400).json({ errors: errors.array() });
-	}
+router.post(
+	"/",
+	checkAuth,
+	validateRoutine,
+	handleValidationErrors,
+	controller.createRoutine
+);
 
-	// If validation passes, proceed with routine creation
-	controller.createRoutine(req, res);
-});
-
-router.delete("/", controller.deleteRoutine);
+router.delete("/", checkAuth, controller.deleteRoutine);
 
 module.exports = router;

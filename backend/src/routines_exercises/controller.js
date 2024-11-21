@@ -6,15 +6,7 @@ const getExercisesByUser = async (req, res) => {
 	const user = req.session.user;
 
 	try {
-		// Check if the user is logged in
-		if (!user) {
-			return res.status(401).json({
-				message: "You need to log in to see your routine's exercises",
-				error: true,
-			});
-		}
-
-		// If it's logged in, check if he has any exercise stored in the routines
+		// Check if he has any exercise stored in the routines
 		const exercisesResults = await pool.query(queries.getExercisesByUser, [
 			user.user_id,
 		]);
@@ -43,15 +35,7 @@ const getExercisesByRoutine = async (req, res) => {
 	const { routineId } = req.body;
 
 	try {
-		// Check if the user is logged in
-		if (!user) {
-			return res.status(401).json({
-				message: "You need to log in to see your routine's exercises",
-				error: true,
-			});
-		}
-
-		// If it's logged in, check if he has any exercise stored in the routine with that id
+		// Check if he has any exercise stored in the routine with that id
 		const exercisesResults = await pool.query(queries.getExercisesByRoutine, [
 			user.user_id,
 			routineId,
@@ -78,13 +62,6 @@ const getExercisesByRoutine = async (req, res) => {
 const addExerciseToRoutine = async (req, res) => {
 	const user = req.session.user;
 	const { routineId, exerciseId, sets, reps } = req.body;
-
-	if (!user) {
-		return res.status(401).json({
-			message: "You need to log in to add exercises to a routine",
-			error: true,
-		});
-	}
 
 	try {
 		// Check if the routine belongs to the user
@@ -135,8 +112,101 @@ const addExerciseToRoutine = async (req, res) => {
 	}
 };
 
+const updateExerciseInRoutine = async (req, res) => {
+	const user = req.session.user;
+	const { rExerciseId, routineId, newExerciseId, sets, reps } = req.body;
+
+	try {
+		// Check if the routine belongs to the user
+		const checkRoutine = await pool.query(routinesQueries.checkRoutineUser, [
+			user.user_id,
+			routineId,
+		]);
+
+		if (checkRoutine.rows.length === 0) {
+			return res.status(403).json({
+				message: "This isn't your routine!",
+				error: true,
+			});
+		}
+
+		// Update the exercise in the routine if it exists
+		const updateExercise = await pool.query(queries.updateExerciseInRoutine, [
+			newExerciseId || null,
+			sets || null,
+			reps || null,
+			routineId,
+			rExerciseId,
+		]);
+
+		if (updateExercise.rows.length === 0) {
+			return res.status(404).json({
+				message: "Exercise not found in the specified routine",
+				error: true,
+			});
+		}
+
+		res.status(200).json({
+			message: "Exercise updated successfully",
+			error: false,
+		});
+	} catch (error) {
+		console.error(error);
+		return res.status(500).json({
+			message: "Error while editting an exercise of your routine",
+			error: true,
+		});
+	}
+};
+
+const deleteExerciseInRoutine = async (req, res) => {
+	const user = req.session.user;
+	const { rExerciseId, routineId } = req.body;
+
+	try {
+		// Check if the routine belongs to the user
+		const checkRoutine = await pool.query(routinesQueries.checkRoutineUser, [
+			user.user_id,
+			routineId,
+		]);
+
+		if (checkRoutine.rows.length === 0) {
+			return res.status(403).json({
+				message: "This isn't your routine!",
+				error: true,
+			});
+		}
+
+		// Delete if the exercise is in the routine
+		const deleteResults = await pool.query(queries.deleteExerciseInRoutine, [
+			routineId,
+			rExerciseId,
+		]);
+
+		if (deleteResults.rows.length === 0) {
+			return res.status(404).json({
+				message: "Exercise not found in the specified routine",
+				error: true,
+			});
+		}
+
+		return res.status(200).json({
+			message: "Exercise deleted successfully from the routine",
+			error: false,
+		});
+	} catch (error) {
+		console.error(error);
+		return res.status(500).json({
+			message: "Error while adding exercise to routine",
+			error: true,
+		});
+	}
+};
+
 module.exports = {
 	getExercisesByUser,
 	getExercisesByRoutine,
 	addExerciseToRoutine,
+	updateExerciseInRoutine,
+	deleteExerciseInRoutine,
 };

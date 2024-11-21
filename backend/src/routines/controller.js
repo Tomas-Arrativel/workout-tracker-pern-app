@@ -28,32 +28,23 @@ const getRoutinesByUser = async (req, res) => {
 	const user = req.session.user;
 
 	try {
-		// Check if user is logged in
-		if (user) {
-			// Get the user's routines
-			const routinesResults = await pool.query(queries.getRoutinesByUser, [
-				user.user_id,
-			]);
+		// Get the user's routines
+		const routinesResults = await pool.query(queries.getRoutinesByUser, [
+			user.user_id,
+		]);
 
-			// If he doesn't have any, return an error
-			if (routinesResults.rows.length === 0) {
-				return res.status(400).json({
-					message: "You don't have any routine, create one to see it here",
-					error: true,
-				});
-			}
-
-			// Else return the routines
-			return res
-				.status(200)
-				.json({ routines: routinesResults.rows, error: false });
-		} else {
-			//If he isn't logged in, send an error
-			return res.status(401).json({
-				message: "You need to log in to see your routines!",
+		// If he doesn't have any, return an error
+		if (routinesResults.rows.length === 0) {
+			return res.status(400).json({
+				message: "You don't have any routine, create one to see it here",
 				error: true,
 			});
 		}
+
+		// Else return the routines
+		return res
+			.status(200)
+			.json({ routines: routinesResults.rows, error: false });
 	} catch (error) {
 		console.error(error);
 		return res.status(500).json({
@@ -68,40 +59,32 @@ const createRoutine = async (req, res) => {
 	const { name, day } = req.body;
 
 	try {
-		if (user) {
-			// Check if there is a routine with the name or the day
-			const conflictResult = await pool.query(queries.checkRoutineConflicts, [
-				user.user_id,
-				name,
-				day,
-			]);
+		// Check if there is a routine with the name or the day
+		const conflictResult = await pool.query(queries.checkRoutineConflicts, [
+			user.user_id,
+			name,
+			day,
+		]);
 
-			if (conflictResult.rows.length > 0) {
-				const conflict = conflictResult.rows[0];
-				return res.status(409).json({
-					message: `Conflict: A routine named "${conflict.name}" or assigned to day ${conflict.day} already exists.`,
-					error: true,
-				});
-			}
-
-			// If there is no routine, create the new one
-			const createRoutineResults = await pool.query(queries.createRoutine, [
-				user.user_id,
-				name,
-				day,
-			]);
-
-			// Return a message when routine is created
-			return res
-				.status(201)
-				.json({ message: "Routine created successfully", error: false });
-		} else {
-			//If user isnt logged in, send an error
-			return res.status(401).json({
-				message: "You need to log in to create a routine",
+		if (conflictResult.rows.length > 0) {
+			const conflict = conflictResult.rows[0];
+			return res.status(409).json({
+				message: `Conflict: A routine named "${conflict.name}" or assigned to day ${conflict.day} already exists.`,
 				error: true,
 			});
 		}
+
+		// If there is no routine, create the new one
+		const createRoutineResults = await pool.query(queries.createRoutine, [
+			user.user_id,
+			name,
+			day,
+		]);
+
+		// Return a message when routine is created
+		return res
+			.status(201)
+			.json({ message: "Routine created successfully", error: false });
 	} catch (error) {
 		console.error(error);
 		return res.status(500).json({
@@ -116,14 +99,6 @@ const deleteRoutine = async (req, res) => {
 	const { routineId } = req.body;
 
 	try {
-		// Check if the user is logged in
-		if (!user) {
-			return res.status(401).json({
-				message: "You can't delete a routine since you aren't logged in!",
-				error: true,
-			});
-		}
-
 		// Check if the routine is from the user
 		const userRoutine = await pool.query(queries.checkRoutineUser, [
 			user.user_id,
@@ -155,14 +130,6 @@ const changeRoutineName = async (req, res) => {
 	const { name, routineId } = req.body;
 
 	try {
-		// If user isn't logged in throw an error
-		if (!user) {
-			return res.status(401).json({
-				message: "You can't update a routine since you aren't logged in!",
-				error: true,
-			});
-		}
-
 		// Check if the routine is from the user
 		const userRoutine = await pool.query(queries.checkRoutineUser, [
 			user.user_id,
@@ -199,14 +166,6 @@ const changeRoutineDay = async (req, res) => {
 	const { day, routineId } = req.body;
 
 	try {
-		// If user isn't logged in throw an error
-		if (!user) {
-			return res.status(401).json({
-				message: "You can't update a routine since you aren't logged in!",
-				error: true,
-			});
-		}
-
 		// Check if the routine is from the user
 		const userRoutine = await pool.query(queries.checkRoutineUser, [
 			user.user_id,
