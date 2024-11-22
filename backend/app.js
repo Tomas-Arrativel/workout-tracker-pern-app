@@ -3,6 +3,7 @@ const usersRoutes = require("./src/users/routes");
 const exercisesRoutes = require("./src/exercises/routes");
 const routinesRoutes = require("./src/routines/routes");
 const routinesExercisesRoutes = require("./src/routines_exercises/routes");
+const workoutsRoutes = require("./src/workouts/routes");
 
 const session = require("express-session");
 
@@ -28,5 +29,6 @@ app.use("/api/users", usersRoutes);
 app.use("/api/exercises", exercisesRoutes);
 app.use("/api/routines", routinesRoutes);
 app.use("/api/r-exercises", routinesExercisesRoutes);
+app.use("/api/workouts", workoutsRoutes);
 
 app.listen(PORT, () => console.log(`App listening on port ${PORT}`));
