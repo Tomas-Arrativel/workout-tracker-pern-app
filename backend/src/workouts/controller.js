@@ -47,12 +47,10 @@ const getWorkoutById = async (req, res) => {
 
 		// Checking if the workout exists
 		if (workoutResult.rows.length === 0) {
-			return res
-				.status(404)
-				.json({
-					message: "Workout not found or doesn't belong to you",
-					error: true,
-				});
+			return res.status(404).json({
+				message: "Workout not found or doesn't belong to you",
+				error: true,
+			});
 		}
 
 		// If it exists, return it
@@ -66,4 +64,25 @@ const getWorkoutById = async (req, res) => {
 	}
 };
 
-module.exports = { userWorkouts, getWorkoutById };
+const addWorkout = async (req, res) => {
+	const user = req.session.user;
+	const { routineId, notes } = req.body;
+
+	try {
+		//TODO: Add a check routine to see if it exists and its user is the user_id
+		await pool.query(queries.addWorkout, [user.user_id, routineId, notes]);
+
+		return res.status(201).json({
+			message: "Workout added successfully",
+			error: false,
+		});
+	} catch (error) {
+		console.error(error);
+		return res.status(500).json({
+			message: "Error while getting the routine's exercises",
+			error: true,
+		});
+	}
+};
+
+module.exports = { userWorkouts, getWorkoutById, addWorkout };
