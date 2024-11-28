@@ -2,7 +2,10 @@ const { Router } = require("express");
 const controller = require("./controller");
 
 const { checkAuth } = require("../../middleware/authValidator");
-const { validateWorkout } = require("../../middleware/validator");
+const {
+	validateWorkout,
+	validateUpdateWorkout,
+} = require("../../middleware/validator");
 const { handleValidationErrors } = require("../../middleware/validationErrors");
 
 const router = Router();
@@ -17,5 +20,15 @@ router.post(
 	handleValidationErrors,
 	controller.addWorkout
 );
+
+router.put(
+	"/:workoutId",
+	checkAuth,
+	validateUpdateWorkout,
+	handleValidationErrors,
+	controller.updateWorkout
+);
+
+router.delete("/:workoutId", checkAuth, controller.deleteWorkout);
 
 module.exports = router;

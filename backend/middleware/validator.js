@@ -83,6 +83,22 @@ const validateWorkout = [
 		),
 ];
 
+const validateUpdateWorkout = [
+	body("routineId")
+		.optional({ nullable: true })
+		.isInt({ min: 1 })
+		.withMessage("The routine id must be greater or equal to 1"),
+
+	body("notes")
+		.optional({ nullable: true })
+		.isString()
+		.withMessage("The notes should be a string")
+		.matches(/^[a-zA-Z0-9 ]*$/)
+		.withMessage(
+			"The notes should only contain alphanumeric characters and spaces"
+		),
+];
+
 module.exports = {
 	validateUser,
 	validateRoutine,
@@ -90,4 +106,5 @@ module.exports = {
 	validateRoutinesDay,
 	validateRoutineExercise,
 	validateWorkout,
+	validateUpdateWorkout,
 };
