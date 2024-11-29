@@ -4,6 +4,7 @@ const exercisesRoutes = require("./src/exercises/routes");
 const routinesRoutes = require("./src/routines/routes");
 const routinesExercisesRoutes = require("./src/routines_exercises/routes");
 const workoutsRoutes = require("./src/workouts/routes");
+const workoutsExercisesRoutes = require("./src/workout_exercises/routes");
 
 const session = require("express-session");
 
@@ -21,14 +22,11 @@ app.use(
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-	res.send("Hello world");
-});
-
 app.use("/api/users", usersRoutes);
 app.use("/api/exercises", exercisesRoutes);
 app.use("/api/routines", routinesRoutes);
 app.use("/api/r-exercises", routinesExercisesRoutes);
 app.use("/api/workouts", workoutsRoutes);
+app.use("/api/w-exercises", workoutsExercisesRoutes);
 
 app.listen(PORT, () => console.log(`App listening on port ${PORT}`));
