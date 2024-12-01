@@ -128,6 +128,40 @@ const validateAddExerciseToWorkout = [
 		.withMessage("The rir must be a number between 0 and 10"),
 ];
 
+const validateUpdateExerciseInWorkout = [
+	body("workoutId")
+		.isInt({ min: 1 })
+		.withMessage("The workoutId must be a positive number"),
+
+	body("exerciseId")
+		.optional({ nullable: true })
+		.isInt({ min: 1 })
+		.withMessage("The exerciseId must be a positive number"),
+
+	body("weight")
+		.optional({ nullable: true })
+		.optional()
+		.isDecimal({ decimal_digits: "0,2" })
+		.withMessage("The weight should be a number with up to 2 decimal places")
+		.isFloat({ min: 0 })
+		.withMessage("The weight must be 0 or greater"),
+
+	body("sets")
+		.optional({ nullable: true })
+		.isInt({ min: 1 })
+		.withMessage("The sets must be a positive integer"),
+
+	body("reps")
+		.optional({ nullable: true })
+		.isInt({ min: 1 })
+		.withMessage("The reps must be a positive integer"),
+
+	body("rir")
+		.optional({ nullable: true })
+		.isInt({ min: 0, max: 10 })
+		.withMessage("The rir must be a number between 0 and 10"),
+];
+
 module.exports = {
 	validateUser,
 	validateRoutine,
@@ -137,4 +171,5 @@ module.exports = {
 	validateWorkout,
 	validateUpdateWorkout,
 	validateAddExerciseToWorkout,
+	validateUpdateExerciseInWorkout,
 };

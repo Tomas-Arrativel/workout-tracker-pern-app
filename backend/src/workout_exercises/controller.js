@@ -104,7 +104,8 @@ const updateExerciseInWorkout = async (req, res) => {
 		]);
 		if (isFromUserResults.rows.length === 0) {
 			return res.status(403).json({
-				message: "The workout isn't yours so you can't add an exercise to it",
+				message:
+					"The workout isn't yours so you can't update any exercise in it",
 				error: true,
 			});
 		}
@@ -123,6 +124,53 @@ const updateExerciseInWorkout = async (req, res) => {
 				});
 			}
 		}
+
+		// If everything is correct update the exercise
+		await pool.query(queries.updateExercise, [
+			exerciseId,
+			weight,
+			sets,
+			reps,
+			rir,
+			workoutExerciseId,
+		]);
+		// Return a success message
+		return res
+			.status(204)
+			.json({ message: "Exercise updated successfully", error: false });
+	} catch (error) {
+		console.error(error);
+		return res.status(500).json({
+			message: "Error while editing the exercise in the workout",
+			error: true,
+		});
+	}
+};
+
+const deleteExerciseInWorkout = async (req, res) => {
+	const user = req.session.user;
+	const { workoutExerciseId, workoutId } = req.body;
+
+	try {
+		// Check if the workout is from the user
+		const isFromUserResults = await pool.query(workoutQueries.getWorkoutById, [
+			user.user_id,
+			workoutId,
+		]);
+		if (isFromUserResults.rows.length === 0) {
+			return res.status(403).json({
+				message:
+					"The workout isn't yours so you can't delete an exercise in it",
+				error: true,
+			});
+		}
+
+		// If there is no error delete the exercise
+		await pool.query(queries.deleteExerciseInWorkout, [workoutExerciseId]);
+		return res.status(204).json({
+			message: "Workout exercise deleted successfully",
+			error: false,
+		});
 	} catch (error) {
 		console.error(error);
 		return res.status(500).json({
@@ -136,4 +184,5 @@ module.exports = {
 	getExercisesFromWorkout,
 	addExerciseToWorkout,
 	updateExerciseInWorkout,
+	deleteExerciseInWorkout,
 };
