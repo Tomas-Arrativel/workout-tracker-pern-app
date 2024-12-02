@@ -6,7 +6,7 @@ const getExercisesFromWorkout = async (req, res) => {
 	const { workoutId } = req.params;
 
 	if (isNaN(workoutId)) {
-		return res.status(400).json({
+		return res.status(404).json({
 			message: "The workout_id isn't a number, try using one",
 			error: true,
 		});
@@ -20,7 +20,7 @@ const getExercisesFromWorkout = async (req, res) => {
 		);
 
 		if (workoutExercisesResults.rows.length === 0) {
-			return res.status(400).json({
+			return res.status(404).json({
 				message: "The user didn't added any exercise to the workout",
 				error: true,
 			});
@@ -63,7 +63,7 @@ const addExerciseToWorkout = async (req, res) => {
 			[workoutId, exerciseId]
 		);
 		if (isExerciseInUseResult.rows.length > 0) {
-			return res.status(400).json({
+			return res.status(404).json({
 				message: `This exercise ${exerciseId} is already registered in the workout, edit it instead!`,
 				error: true,
 			});
@@ -118,8 +118,8 @@ const updateExerciseInWorkout = async (req, res) => {
 				[workoutId, exerciseId]
 			);
 			if (isExerciseInUseResult.rows.length > 0) {
-				return res.status(400).json({
-					message: `This exercise ${exerciseId} is already registered in the workout, edit it instead!`,
+				return res.status(404).json({
+					message: `This exercise ${exerciseId} is already registered in the workout`,
 					error: true,
 				});
 			}
