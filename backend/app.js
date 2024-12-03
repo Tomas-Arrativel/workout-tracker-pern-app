@@ -1,4 +1,6 @@
 const express = require("express");
+const cors = require("cors");
+
 const usersRoutes = require("./src/users/routes");
 const exercisesRoutes = require("./src/exercises/routes");
 const routinesRoutes = require("./src/routines/routes");
@@ -9,6 +11,14 @@ const workoutsExercisesRoutes = require("./src/workout_exercises/routes");
 const session = require("express-session");
 
 const app = express();
+
+app.use(
+	cors({
+		origin: "http://localhost:5173",
+		credentials: true,
+	})
+);
+
 const PORT = 3000;
 
 app.use(
