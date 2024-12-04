@@ -9,6 +9,7 @@ const router = Router();
 router.get("/", controller.getUsers);
 router.get("/logout", controller.logout);
 router.get("/profile", controller.getProfile);
+router.get("/check-auth", controller.checkAuth);
 
 // Create the user with validations
 router.post("/", validateUser, (req, res) => {

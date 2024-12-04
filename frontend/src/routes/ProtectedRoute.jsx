@@ -1,11 +1,19 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
+import React, { useContext } from "react";
+import { Navigate, Outlet } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
+
 import "./ProtectedRoute.css";
 
-const ProtectedRoute = ({ isAuthenticated, isLoading, children }) => {
-	if (isLoading) return <div className="loader">Loading...</div>;
+const ProtectedRoute = () => {
+	const { isAuthenticated, isLoading } = useContext(AuthContext);
 
-	return isAuthenticated ? children : <Navigate to="/login" />;
+	if (isLoading === true) {
+		// You can show a loader while the authentication status is being checked
+		return <div className="loader">Checking authentication...</div>;
+	}
+
+	// If authenticated, render the protected route's children
+	return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
 };
 
 export default ProtectedRoute;

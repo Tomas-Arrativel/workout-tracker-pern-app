@@ -21,16 +21,19 @@ app.use(
 
 const PORT = 3000;
 
+app.use(express.json());
 app.use(
 	session({
-		secret: "your-secret-key", // replace with a secure key in production
+		secret: "process.env.SESSION_KEY",
 		resave: false,
 		saveUninitialized: false,
-		cookie: { maxAge: 1000 * 60 * 120 }, // 2 hour
+		cookie: {
+			secure: false, // Set to true if using HTTPS
+			httpOnly: true,
+			maxAge: 1000 * 60 * 60 * 24, // 1 day
+		},
 	})
 );
-
-app.use(express.json());
 
 app.use("/api/users", usersRoutes);
 app.use("/api/exercises", exercisesRoutes);

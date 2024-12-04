@@ -208,6 +208,14 @@ const changePassword = async (req, res) => {
 	}
 };
 
+const checkAuth = (req, res) => {
+	if (req.session.userId) {
+		res.json({ isAuthenticated: true });
+	} else {
+		res.json({ isAuthenticated: false });
+	}
+};
+
 module.exports = {
 	getUsers,
 	createUser,
@@ -215,4 +223,5 @@ module.exports = {
 	logout,
 	getProfile,
 	changePassword,
+	checkAuth,
 };

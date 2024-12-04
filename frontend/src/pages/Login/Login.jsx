@@ -20,8 +20,7 @@ const Login = () => {
 
 		try {
 			const response = await login(formData); // Call the login API
-			const { token } = response; // Assume the API response includes a token
-			localStorage.setItem("token", token); // Save token to localStorage
+			console.log(response.data);
 			navigate("/dashboard"); // Redirect to dashboard
 		} catch (err) {
 			setError(err.response?.data?.message || "Invalid username or password");
