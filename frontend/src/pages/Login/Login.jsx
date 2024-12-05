@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../api/api";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const Login = () => {
 	const [formData, setFormData] = useState({ username: "", password: "" });
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
+
+	const { setIsAuthenticated } = useContext(AuthContext);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -21,6 +24,7 @@ const Login = () => {
 		try {
 			const response = await login(formData); // Call the login API
 			console.log(response.data);
+			setIsAuthenticated(true);
 			navigate("/dashboard"); // Redirect to dashboard
 		} catch (err) {
 			setError(err.response?.data?.message || "Invalid username or password");

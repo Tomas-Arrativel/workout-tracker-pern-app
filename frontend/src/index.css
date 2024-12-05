@@ -1,5 +1,120 @@
-* {
+/* Font families to use */
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap");
+
+/* CSS Variables */
+:root {
+	--dark-blue: #1b1f3b;
+	--white: #f5f5f5;
+	--magenta: #ff4081;
+	--cyan: #00c4cc;
+	--light-gray: #e0e0e0;
+
+	--cta-font: "Raleway", sans-serif;
+}
+
+/* General Reset */
+*,
+*::before,
+*::after {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+}
+
+/* HTML & Body Reset */
+html {
+	font-size: 100%; /* Makes 1rem = 16px */
+	line-height: 1.6;
+	-webkit-text-size-adjust: 100%; /* Prevent font scaling in iOS */
+	scroll-behavior: smooth;
+}
+
+body {
+	margin: 0;
+	font-family: "Montserrat", sans-serif;
+	background-color: var(--white);
+	color: var(--dark-blue);
+	line-height: 1.6;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+	font-family: "Oswald", sans-serif;
+}
+
+/* Reset for Lists */
+ul,
+ol {
+	list-style: none;
+}
+
+/* Reset for Links */
+a {
+	text-decoration: none;
+	color: inherit;
+	cursor: pointer;
+}
+
+/* Reset for Images and Media */
+img,
+picture,
+video,
+canvas {
+	max-width: 100%;
+	display: block;
+	height: auto;
+}
+
+/* Buttons and Inputs */
+button,
+input,
+textarea,
+select {
+	font: inherit;
+	background: none;
+	border: none;
+	outline: none;
+}
+
+.cta-button {
+	font-family: "Raleway", sans-serif;
+	font-weight: 700;
+}
+
+/* Table Reset */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 100%;
+}
+
+/* Accessibility: Remove outlines except for keyboard navigation */
+*:focus {
+	outline: 2px dashed var(--magenta);
+	outline-offset: 2px;
+}
+
+/* General styles for links and buttons */
+a,
+button {
+	outline: none; /* Remove default outline */
+	border-radius: 6px; /* Add rounded corners */
+}
+
+/* Customized focus style */
+a:focus,
+button:focus {
+	outline: 2px dashed rgba(255, 64, 129, 0.6);
+	outline-offset: 3px;
+	border-radius: 6px;
+}
+
+/* Prevent unexpected overflows */
+body {
+	overflow-x: hidden;
 }

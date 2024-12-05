@@ -13,7 +13,7 @@ const ProtectedRoute = () => {
 	}
 
 	// If authenticated, render the protected route's children
-	return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
+	return !isLoading && isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
 };
 
 export default ProtectedRoute;

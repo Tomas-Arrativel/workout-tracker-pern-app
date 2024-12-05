@@ -209,8 +209,8 @@ const changePassword = async (req, res) => {
 };
 
 const checkAuth = (req, res) => {
-	if (req.session.userId) {
-		res.json({ isAuthenticated: true });
+	if (req.session.user) {
+		res.json({ isAuthenticated: true, user: req.session.user });
 	} else {
 		res.json({ isAuthenticated: false });
 	}

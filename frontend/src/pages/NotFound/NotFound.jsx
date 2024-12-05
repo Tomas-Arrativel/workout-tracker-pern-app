@@ -1,7 +1,13 @@
 import React from "react";
+import Navbar from "../../components/Navbar/Navbar";
 
 const NotFound = () => {
-	return <div>NotFound</div>;
+	return (
+		<div>
+			<Navbar />
+			NotFound
+		</div>
+	);
 };
 
 export default NotFound;

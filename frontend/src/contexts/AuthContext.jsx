@@ -16,17 +16,22 @@ export const AuthProvider = ({ children }) => {
 			try {
 				setIsLoading(true);
 				const { data } = await getCurrentUser();
-				setIsAuthenticated(true);
+				if (data.isAuthenticated) {
+					setIsAuthenticated(true);
+					setSessionData(data.user);
+				}
+				console.log(data);
 			} catch (error) {
 				console.error("Error checking authentication:", error);
 				setIsAuthenticated(false);
+				setSessionData({});
 			} finally {
 				setIsLoading(false);
 			}
 		};
 
 		checkAuth();
-	}, []);
+	}, [isAuthenticated]);
 
 	return (
 		<AuthContext.Provider
