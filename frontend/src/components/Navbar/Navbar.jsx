@@ -40,6 +40,8 @@ const Navbar = () => {
 					{isAuthenticated ? (
 						<>
 							<Link to={"/dashboard"}>Dashboard</Link>
+							<Link to={"/routines"}>Routines</Link>
+							<Link to={"/workouts"}>Workouts</Link>
 							<button onClick={handleLogout} className="logout-btn">
 								Log out
 							</button>
