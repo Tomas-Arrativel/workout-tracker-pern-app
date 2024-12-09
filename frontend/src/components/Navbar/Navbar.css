@@ -4,6 +4,7 @@
 	align-items: center;
 	padding: 0.6rem 2rem;
 	background-color: var(--dark-blue);
+	position: relative;
 }
 
 .navbar__logo a {
@@ -11,6 +12,7 @@
 	font-size: 1.3rem;
 	transition: color 0.2s;
 }
+
 .navbar__logo a:hover {
 	color: var(--magenta);
 }
@@ -26,15 +28,16 @@
 .navbar__links a {
 	transition: color 0.2s;
 }
+
 .navbar__links a:hover {
 	color: var(--magenta);
 }
 
-/* CTA buttons */
 .register-btn {
 	color: var(--magenta);
 	transition: color 0.2s;
 }
+
 .register-btn:hover {
 	color: var(--light-gray) !important;
 }
@@ -44,6 +47,53 @@
 	cursor: pointer;
 	transition: color 0.2s;
 }
+
 .logout-btn:hover {
 	color: var(--light-gray);
+}
+
+/* Hamburger menu */
+.navbar__toggle {
+	display: none;
+	cursor: pointer;
+}
+
+@media (max-width: 768px) {
+	.navbar__links {
+		position: absolute;
+		top: 100%;
+		right: 0;
+		background-color: var(--dark-blue);
+		flex-direction: column;
+		width: 100%;
+		max-height: 0;
+		overflow: hidden;
+		transition: max-height 0.3s ease-in-out;
+	}
+
+	/* Add padding to the child elements instead of the container */
+	.navbar__links a,
+	.navbar__links button {
+		padding: 0.5rem 0; /* Padding for links and buttons */
+		width: 100%; /* Optional: Make clickable area full width */
+		text-align: center;
+	}
+
+	.navbar__links--open {
+		max-height: 300px; /* Adjust as per content size */
+	}
+
+	.navbar__toggle {
+		display: block;
+	}
+}
+
+@media (max-width: 500px) {
+	.navbar {
+		padding: 0.5rem 1rem;
+	}
+
+	.navbar__logo a {
+		font-size: 1.125rem;
+	}
 }
