@@ -22,12 +22,12 @@ const validateUser = [
 	// Weight should be a valid number in metric units (kg)
 	body("weight")
 		.isFloat({ min: 0.1 })
-		.withMessage("Weight must be a number and greater than 0"),
+		.withMessage("Weight must be a number and greater than 0 in kg"),
 
 	// Height should be a valid number in metric units (meters)
 	body("height")
-		.isFloat({ min: 0.5 })
-		.withMessage("Height must be a number and greater than 0.5 meters"),
+		.isFloat({ min: 50 })
+		.withMessage("Height must be a number and greater than 50 cm"),
 
 	// Password must be at least 6 characters long
 	body("password")

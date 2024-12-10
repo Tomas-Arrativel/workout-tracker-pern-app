@@ -20,9 +20,7 @@ export const AuthProvider = ({ children }) => {
 					setIsAuthenticated(true);
 					setSessionData(data.user);
 				}
-				console.log(data);
 			} catch (error) {
-				console.error("Error checking authentication:", error);
 				setIsAuthenticated(false);
 				setSessionData({});
 			} finally {

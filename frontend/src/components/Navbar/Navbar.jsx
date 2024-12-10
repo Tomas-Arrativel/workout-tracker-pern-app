@@ -18,7 +18,7 @@ const Navbar = () => {
 		await logout();
 		setIsAuthenticated(false);
 		setSessionData({});
-		toast("Good byee!", {
+		toast.info("Logout successfully!", {
 			position: "top-center",
 			autoClose: 2500,
 			hideProgressBar: false,
@@ -26,7 +26,7 @@ const Navbar = () => {
 			pauseOnHover: false,
 			draggable: true,
 			progress: undefined,
-			theme: "colored",
+			theme: "light",
 		});
 	};
 

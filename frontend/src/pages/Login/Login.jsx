@@ -25,6 +25,7 @@ const Login = () => {
 		try {
 			const response = await login(formData);
 			setIsAuthenticated(true);
+
 			toast.success(`Welcome back ${response.data.user.username}!`, {
 				position: "top-center",
 				autoClose: 2500,
@@ -35,11 +36,13 @@ const Login = () => {
 				progress: undefined,
 				theme: "colored",
 			});
+
 			navigate("/dashboard");
 		} catch (err) {
 			setErrorMsg(
 				err.response?.data?.message || "Invalid username or password"
 			);
+
 			toast.error(
 				err.response?.data?.message || "Invalid username or password",
 				{

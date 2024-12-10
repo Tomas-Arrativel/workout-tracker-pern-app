@@ -1,43 +1,45 @@
-.login-container {
+.register-container {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	min-height: 90vh;
+	padding: 1rem 0;
 }
 
-.login-card {
+.register-card {
 	background: var(--white);
 	color: var(--dark-blue);
-	padding: 2rem;
+	padding: 1rem 2rem;
 	border-radius: 8px;
 	box-shadow: 0 4px 12px var(--light-gray);
 	width: 100%;
 	max-width: 400px;
 }
 
-.login__title {
+.register__title {
 	text-align: center;
 	font-size: 1.5rem;
 	margin-bottom: 1rem;
 }
 
-.login-form {
+.register-form {
 	display: flex;
 	flex-direction: column;
 }
 
-.form__group {
-	margin-bottom: 1.5rem;
+.register__group {
+	margin-bottom: 1rem;
 }
 
-.form__group-label {
+.register__group-label {
 	display: block;
 	font-size: 0.9rem;
 	margin-bottom: 0.5rem;
 	color: var(--dark-blue);
 }
 
-.form__group-input {
+.register__group-input,
+.register__group-slider {
 	width: 100%;
 	padding: 0.75rem;
 	font-size: 1rem;
@@ -46,18 +48,33 @@
 	outline: none;
 }
 
-.form__group-input:focus {
+.register__group-slider {
+	padding: 0.25rem;
+}
+
+.register__group-slider::-webkit-slider-thumb {
+	background-color: var(--dark-blue);
+	cursor: pointer;
+}
+
+.register__group-slider::-moz-range-thumb {
+	background-color: var(--dark-blue);
+	cursor: pointer;
+}
+
+.register__group-input:focus,
+.register__group-slider:focus {
 	border-color: var(--cyan);
 	box-shadow: 0 0 0 2px rgba(0, 196, 204, 0.2);
 }
 
-.form__group-error {
+.register__group-error {
 	color: var(--magenta);
 	font-size: 0.9rem;
 	margin-top: 0.5rem;
 }
 
-.form__group-button {
+.register__group-button {
 	background-color: var(--magenta);
 	color: var(--white);
 	padding: 0.75rem;
@@ -68,22 +85,21 @@
 	transition: background-color 0.3s ease;
 }
 
-.form__group-button:hover {
+.register__group-button:hover {
 	background-color: var(--cyan);
 }
 
-.form__group-button:disabled {
+.register__group-button:disabled {
 	background-color: var(--light-gray);
 	cursor: not-allowed;
 }
 
-/* Styles for the register link */
-.form__register-link {
+.register__register-link {
 	margin-top: 1rem;
 	font-size: 0.9rem;
 }
 
-.form__register-link a {
+.register__register-link a {
 	color: var(--magenta);
 	text-decoration: none;
 	font-weight: bold;
@@ -91,27 +107,27 @@
 }
 
 @media (max-width: 768px) {
-	.login-card {
+	.register-card {
 		max-width: 90%;
 	}
 }
 
 @media (max-width: 500px) {
-	.login-card {
+	.register-card {
 		max-width: 100%;
 		box-shadow: none;
 		padding: 1rem;
 	}
 
-	.form__group {
+	.register__group {
 		margin-bottom: 0.5rem;
 	}
 
-	.form__group-error {
+	.register__group-error {
 		font-size: 0.8rem;
 	}
 
-	.form__register-link {
+	.register__register-link {
 		font-size: 0.85rem;
 	}
 }
