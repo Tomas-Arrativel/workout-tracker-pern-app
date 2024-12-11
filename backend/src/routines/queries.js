@@ -1,5 +1,5 @@
 const getRoutines = `SELECT * FROM routines`;
-const getRoutinesByUser = `SELECT * FROM routines WHERE user_id = $1`;
+const getRoutinesByUser = `SELECT * FROM routines WHERE user_id = $1 ORDER BY day ASC`;
 const checkRoutinesName = `SELECT name FROM routines WHERE user_id = $1 AND name = $2`;
 const checkRoutineConflicts = `SELECT * FROM routines 
 															 WHERE user_id = $1 

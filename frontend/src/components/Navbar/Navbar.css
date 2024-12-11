@@ -58,6 +58,11 @@
 	cursor: pointer;
 }
 
+.active {
+	color: var(--magenta);
+	font-weight: bold;
+}
+
 @media (max-width: 768px) {
 	.navbar__links {
 		position: absolute;

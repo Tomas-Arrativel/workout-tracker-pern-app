@@ -1,0 +1,68 @@
+.routine-day-card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid var(--light-gray);
+	padding: 1rem;
+	border-radius: 5px;
+	background-color: var(--white);
+	box-shadow: 0 2px 8px var(--light-gray);
+	min-height: 200px;
+}
+
+.routine-day-card h3 {
+	font-size: 1.2rem;
+	color: var(--brown);
+	margin-bottom: 0.5rem;
+}
+
+.routine-day-card .day__name {
+	font-size: 1.1rem;
+}
+
+.routine-day-card p {
+	font-size: 0.9rem;
+}
+
+.routine-day-card .routine__name {
+	font-weight: 700;
+	color: var(--cyan);
+	font-size: 1.2rem !important;
+}
+
+@media (max-width: 768px) {
+	.routine-day-card {
+		min-height: 130px;
+	}
+
+	.routine-day-card h3 {
+		font-size: 1rem;
+	}
+
+	.routine-day-card p {
+		font-size: 0.9rem;
+	}
+
+	.routine-day-card .routine__name {
+		font-size: 1.2rem !important;
+	}
+}
+
+@media (max-width: 480px) {
+	.routine-day-card {
+		min-height: 80px;
+	}
+
+	.routine-day-card h3 {
+		font-size: 1rem;
+	}
+
+	.routine-day-card p {
+		font-size: 0.8rem;
+	}
+
+	.routine-day-card .routine__name {
+		font-size: 1.1rem !important;
+	}
+}

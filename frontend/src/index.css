@@ -118,3 +118,46 @@ button:focus {
 body {
 	overflow-x: hidden;
 }
+
+/* For loading class */
+.loader {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 90vh;
+	font-size: 2rem;
+	color: #555;
+}
+.loader-small {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 20vh;
+	font-size: 1.4rem;
+	color: #555;
+}
+
+.spinner {
+	width: 2rem;
+	height: 2rem;
+	border: 4px solid #ddd; /* Light gray */
+	border-top: 4px solid #555; /* Darker for the spinner color */
+	border-radius: 50%;
+	animation: spin 1s linear infinite;
+	margin-left: 1rem; /* Spacing between spinner and text */
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@media (max-width: 768px) {
+	.loader-small {
+		font-size: 1.2rem;
+	}
+}

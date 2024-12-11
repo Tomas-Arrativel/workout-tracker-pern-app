@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { toast } from "react-toastify";
 import { logout } from "../../api/api";
@@ -12,6 +12,7 @@ const Navbar = () => {
 	const { isAuthenticated, setIsAuthenticated, setSessionData } =
 		useContext(AuthContext);
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const location = useLocation();
 	const navbarRef = useRef(null); // Ref to detect outside clicks
 
 	const handleLogout = async () => {
@@ -47,6 +48,10 @@ const Navbar = () => {
 		};
 	}, []);
 
+	const getLinkClassName = (path) => {
+		return location.pathname === path ? "active" : "";
+	};
+
 	return (
 		<div>
 			<nav className="navbar" ref={navbarRef}>
@@ -58,18 +63,34 @@ const Navbar = () => {
 				<div
 					className={`navbar__links ${isMenuOpen ? "navbar__links--open" : ""}`}
 				>
-					<Link to={"/"} onClick={() => setIsMenuOpen(false)}>
+					<Link
+						to={"/"}
+						className={getLinkClassName("/")}
+						onClick={() => setIsMenuOpen(false)}
+					>
 						Home
 					</Link>
 					{isAuthenticated ? (
 						<>
-							<Link to={"/dashboard"} onClick={() => setIsMenuOpen(false)}>
+							<Link
+								to={"/dashboard"}
+								className={getLinkClassName("/dashboard")}
+								onClick={() => setIsMenuOpen(false)}
+							>
 								Dashboard
 							</Link>
-							<Link to={"/routines"} onClick={() => setIsMenuOpen(false)}>
+							<Link
+								to={"/routines"}
+								className={getLinkClassName("/routines")}
+								onClick={() => setIsMenuOpen(false)}
+							>
 								Routines
 							</Link>
-							<Link to={"/workouts"} onClick={() => setIsMenuOpen(false)}>
+							<Link
+								to={"/workouts"}
+								className={getLinkClassName("/workouts")}
+								onClick={() => setIsMenuOpen(false)}
+							>
 								Workouts
 							</Link>
 							<button
@@ -84,12 +105,16 @@ const Navbar = () => {
 						</>
 					) : (
 						<>
-							<Link to={"/login"} onClick={() => setIsMenuOpen(false)}>
+							<Link
+								to={"/login"}
+								className={getLinkClassName("/login")}
+								onClick={() => setIsMenuOpen(false)}
+							>
 								Log in
 							</Link>
 							<Link
 								to={"/register"}
-								className="register-btn"
+								className={`register-btn ${getLinkClassName("/register")}`}
 								onClick={() => setIsMenuOpen(false)}
 							>
 								Register
