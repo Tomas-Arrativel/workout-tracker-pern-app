@@ -1,5 +1,11 @@
 const getRoutines = `SELECT * FROM routines`;
 const getRoutinesByUser = `SELECT * FROM routines WHERE user_id = $1 ORDER BY day ASC`;
+const getRoutinesByDay = `SELECT r.*, rd.day_name FROM routines r
+													JOIN routines_days rd
+														ON r.day = rd.id
+													WHERE r.user_id = $1
+													AND r.day = $2`;
+
 const checkRoutinesName = `SELECT name FROM routines WHERE user_id = $1 AND name = $2`;
 const checkRoutineConflicts = `SELECT * FROM routines 
 															 WHERE user_id = $1 
@@ -23,6 +29,7 @@ const deleteRoutine = `DELETE FROM routines WHERE routine_id = $1`;
 module.exports = {
 	getRoutines,
 	getRoutinesByUser,
+	getRoutinesByDay,
 	checkRoutinesName,
 	checkRoutineConflicts,
 	checkRoutineUser,

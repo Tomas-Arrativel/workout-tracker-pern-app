@@ -9,6 +9,18 @@ const getExercisesByUser = `SELECT
                                  ON re.exercise_id = e.exercise_id
                                WHERE r.user_id = $1`;
 
+const getExercisesByDay = `SELECT 
+                             re.routine_exercise_id, r.routine_id, e.exercise_id, 
+                             r.name AS routine_name, e.name AS exercise_name, 
+                             r.user_id, e.muscle_group, re.sets, re.reps
+                           FROM routines_exercises re
+                           JOIN routines r 
+                             ON re.routine_id = r.routine_id
+                           JOIN exercises e
+                             ON re.exercise_id = e.exercise_id
+                           WHERE r.user_id = $1
+                           AND r.day = $2`;
+
 const getExercisesByRoutine = `SELECT 
                                  re.routine_exercise_id, r.name AS routine_name,
                                  e.name AS exercise_name, e.muscle_group, re.sets, re.reps
@@ -43,6 +55,7 @@ const deleteExerciseInRoutine = `DELETE FROM routines_exercises
 
 module.exports = {
 	getExercisesByUser,
+	getExercisesByDay,
 	getExercisesByRoutine,
 	checkRoutineExercise,
 	addExerciseToRoutine,

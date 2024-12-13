@@ -30,6 +30,35 @@ const getExercisesByUser = async (req, res) => {
 	}
 };
 
+const getExercisesByDay = async (req, res) => {
+	const user = req.session.user;
+	const { day } = req.params;
+
+	try {
+		// Check if he has any exercise stored in the routine with that id
+		const exercisesResults = await pool.query(queries.getExercisesByDay, [
+			user.user_id,
+			day,
+		]);
+
+		// If no exercise is found, throw an error message
+		if (exercisesResults.rows.length === 0) {
+			return res.status(204).json({
+				message: "You don't have any exercise in that routine, add one!",
+				error: false,
+			});
+		}
+
+		res.status(200).json({ exercises: exercisesResults.rows, error: false });
+	} catch (error) {
+		console.error(error);
+		return res.status(500).json({
+			message: "Error while getting the routine's exercises",
+			error: true,
+		});
+	}
+};
+
 const getExercisesByRoutine = async (req, res) => {
 	const user = req.session.user;
 	const { routineId } = req.body;
@@ -205,6 +234,7 @@ const deleteExerciseInRoutine = async (req, res) => {
 
 module.exports = {
 	getExercisesByUser,
+	getExercisesByDay,
 	getExercisesByRoutine,
 	addExerciseToRoutine,
 	updateExerciseInRoutine,

@@ -1,0 +1,22 @@
+.exercises {
+	display: flex;
+	flex-direction: column;
+}
+
+.exercises__title {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.exercises__title-add {
+	font-size: 2rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: var(--dark-blue);
+	transition: color 0.2s;
+}
+.exercises__title-add:hover {
+	color: var(--cyan);
+}

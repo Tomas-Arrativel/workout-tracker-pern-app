@@ -8,6 +8,7 @@ import {
 	Dashboard,
 	Register,
 	Routines,
+	RoutineDay,
 } from "./pages/exports";
 import Navbar from "./components/Navbar/Navbar";
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
 					{
 						path: "/routines",
 						element: <Routines />,
+					},
+					{
+						path: "/routines/:day",
+						element: <RoutineDay />,
 					},
 				],
 			},

@@ -1,8 +1,8 @@
 import React from "react";
 
-import "./RoutineDay.css";
+import "./RoutineCard.css";
 
-const RoutineDay = ({ dayName, name }) => {
+const RoutineCard = ({ dayName, name }) => {
 	return (
 		<div className="routine-day-card">
 			<h3 className="day__name">{dayName}</h3>
@@ -11,4 +11,4 @@ const RoutineDay = ({ dayName, name }) => {
 	);
 };
 
-export default RoutineDay;
+export default RoutineCard;

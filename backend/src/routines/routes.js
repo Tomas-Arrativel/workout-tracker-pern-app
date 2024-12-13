@@ -15,6 +15,7 @@ const router = Router();
 
 router.get("/", controller.getRoutines);
 router.get("/my-routines", checkAuth, controller.getRoutinesByUser);
+router.get("/my-routines/:day", checkAuth, controller.getRoutinesByDay);
 
 router.put(
 	"/name",

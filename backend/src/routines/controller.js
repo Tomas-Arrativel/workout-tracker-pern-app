@@ -197,9 +197,43 @@ const changeRoutineDay = async (req, res) => {
 	}
 };
 
+const getRoutinesByDay = async (req, res) => {
+	const user = req.session.user;
+	const { day } = req.params;
+
+	try {
+		// Get the user's routines
+		const routinesResults = await pool.query(queries.getRoutinesByDay, [
+			user.user_id,
+			day,
+		]);
+
+		// If he doesn't have any, return an error
+		if (routinesResults.rows.length === 0) {
+			return res.status(400).json({
+				message:
+					"You don't have any routine for that day, create one to see it here",
+				error: true,
+			});
+		}
+
+		// Else return the routines
+		return res
+			.status(200)
+			.json({ routine: routinesResults.rows[0], error: false });
+	} catch (error) {
+		console.error(error);
+		return res.status(500).json({
+			message: "Error while getting the routines for this user",
+			error: true,
+		});
+	}
+};
+
 module.exports = {
 	getRoutines,
 	getRoutinesByUser,
+	getRoutinesByDay,
 	createRoutine,
 	changeRoutineName,
 	changeRoutineDay,

@@ -21,3 +21,12 @@ export const logout = async () =>
 // Routines APIs
 export const getRoutinesByUser = async () =>
 	await API.get(`/routines/my-routines`, { withCredentials: true });
+
+export const getRoutinesByDay = async (day) =>
+	await API.get(`/routines/my-routines/${day}`, { withCredentials: true });
+
+export const getRoutineExercisesByDay = async (day) =>
+	await API.get(`/r-exercises/${day}`, { withCredentials: true });
+
+export const getExercisesNames = async (exId) =>
+	await API.get(`/exercises/${exId}`);

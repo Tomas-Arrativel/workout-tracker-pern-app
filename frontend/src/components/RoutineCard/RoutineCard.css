@@ -9,6 +9,12 @@
 	background-color: var(--white);
 	box-shadow: 0 2px 8px var(--light-gray);
 	min-height: 200px;
+	transition: all 0.2s;
+}
+
+.routine-day-card:hover {
+	box-shadow: 0 4px 8px #ededed;
+	transform: scale(1.05);
 }
 
 .routine-day-card h3 {

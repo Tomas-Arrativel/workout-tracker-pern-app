@@ -11,6 +11,9 @@ const router = Router();
 // Get all exercises for a user
 router.get("/", checkAuth, controller.getExercisesByUser);
 
+// Get exercises for a day of the user
+router.get("/:day", checkAuth, controller.getExercisesByDay);
+
 // Get exercises for a specific routine
 router.post("/by-routine", checkAuth, controller.getExercisesByRoutine);
 

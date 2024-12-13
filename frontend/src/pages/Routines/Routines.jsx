@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+import RoutineCard from "../../components/RoutineCard/RoutineCard";
+import { getRoutinesByUser } from "../../api/api";
+import { Link } from "react-router-dom";
 
 import "./Routines.css";
-import { getRoutinesByUser } from "../../api/api";
-import RoutineDay from "../../components/RoutineDay/RoutineDay";
 
 const Routines = () => {
 	const [errorMsg, setErrorMsg] = useState("");
@@ -36,14 +37,13 @@ const Routines = () => {
 		getRoutines();
 	}, []);
 
-	console.log(routines || errorMsg);
-
 	// Map days of the week and find routines for each day
 	const routinesByDay = daysOfWeek.map((day) => {
 		const routine = routines.find((routine) => routine.day === day.id);
 		return {
 			dayName: day.name,
 			routine: routine || null,
+			dayId: day.id,
 		};
 	});
 
@@ -52,15 +52,24 @@ const Routines = () => {
 			<div className="routines-card">
 				<h2>Routines</h2>
 				<div className="routines__container">
+					{errorMsg ? <p>{errorMsg}</p> : ""}
 					{isLoading ? (
 						<div className="loader-small">
 							Loading please wait...<i className="spinner"></i>
 						</div>
 					) : (
-						routinesByDay.map(({ dayName, routine }) => (
-							<div key={dayName} className="routine-day">
-								<RoutineDay dayName={dayName} name={routine?.name || ""} />
-							</div>
+						routinesByDay.map(({ dayName, routine, dayId }) => (
+							<Link
+								to={`/routines/${dayId}`}
+								key={dayId}
+								className="routine-day"
+							>
+								<RoutineCard
+									dayName={dayName}
+									name={routine?.name || ""}
+									day={dayId}
+								/>
+							</Link>
 						))
 					)}
 				</div>
