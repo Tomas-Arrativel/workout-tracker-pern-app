@@ -44,8 +44,9 @@ const getExercisesByDay = async (req, res) => {
 		// If no exercise is found, throw an error message
 		if (exercisesResults.rows.length === 0) {
 			return res.status(204).json({
-				message: "You don't have any exercise in that routine, add one!",
+				message: "You don't have any exercise in this routine",
 				error: false,
+				from: "routineExercises",
 			});
 		}
 

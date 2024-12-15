@@ -211,9 +211,9 @@ const getRoutinesByDay = async (req, res) => {
 		// If he doesn't have any, return an error
 		if (routinesResults.rows.length === 0) {
 			return res.status(400).json({
-				message:
-					"You don't have any routine for that day, create one to see it here",
+				message: "You don't have any routine for this day",
 				error: true,
+				from: "routines",
 			});
 		}
 

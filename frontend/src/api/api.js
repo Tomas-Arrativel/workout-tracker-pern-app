@@ -18,6 +18,10 @@ export const getCurrentUser = async () =>
 export const logout = async () =>
 	await API.get(`/users/logout`, { withCredentials: true });
 
+// Days
+export const getDays = async () => await API.get(`/days`);
+export const getDayById = async (day) => await API.get(`/days/${day}`);
+
 // Routines APIs
 export const getRoutinesByUser = async () =>
 	await API.get(`/routines/my-routines`, { withCredentials: true });

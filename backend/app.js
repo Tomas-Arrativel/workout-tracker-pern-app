@@ -7,6 +7,7 @@ const routinesRoutes = require("./src/routines/routes");
 const routinesExercisesRoutes = require("./src/routines_exercises/routes");
 const workoutsRoutes = require("./src/workouts/routes");
 const workoutsExercisesRoutes = require("./src/workout_exercises/routes");
+const daysRoutes = require("./src/days/routes");
 
 const session = require("express-session");
 
@@ -41,5 +42,6 @@ app.use("/api/routines", routinesRoutes);
 app.use("/api/r-exercises", routinesExercisesRoutes);
 app.use("/api/workouts", workoutsRoutes);
 app.use("/api/w-exercises", workoutsExercisesRoutes);
+app.use("/api/days", daysRoutes);
 
 app.listen(PORT, () => console.log(`App listening on port ${PORT}`));
