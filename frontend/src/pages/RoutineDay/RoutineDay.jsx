@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getRoutineExercisesByDay, getRoutinesByDay } from "../../api/api";
+import {
+	getDayById,
+	getRoutineExercisesByDay,
+	getRoutinesByDay,
+} from "../../api/api";
+
 import { IoMdAddCircle } from "react-icons/io";
 import Exercise from "../../components/Exercise/Exercise";
 
@@ -8,27 +13,50 @@ import "./RoutineDay.css";
 
 const RoutineDay = () => {
 	const { day } = useParams();
+
 	const [routine, setRoutine] = useState({});
 	const [routineExercises, setRoutineExercises] = useState([]);
+	const [dayName, setDayName] = useState();
 	const [isLoading, setIsLoading] = useState(false);
-	const [errorMsg, setErrorMsg] = useState("");
+	const [error, setError] = useState();
 
 	useEffect(() => {
+		// Create the function to get the routine info
 		const getRoutine = async () => {
 			setIsLoading(true);
+
 			try {
+				// Set the routine response
 				const response = await getRoutinesByDay(day);
-				const responseEx = await getRoutineExercisesByDay(day);
 				setRoutine(response.data.routine);
+
+				// We get the exercises in the routine
+				const responseEx = await getRoutineExercisesByDay(day);
 				setRoutineExercises(responseEx.data.exercises);
 			} catch (err) {
-				setErrorMsg(err.response?.data?.message);
+				setError(err.response?.data);
+			} finally {
+				setIsLoading(false);
+			}
+		};
+
+		// Create the function to get the day
+		const getDay = async () => {
+			setIsLoading(true);
+
+			try {
+				// We get the dayname of the routine
+				const responseDay = await getDayById(day);
+				setDayName(responseDay.data.day.day_name);
+			} catch (err) {
+				setError(err.response?.data);
 			} finally {
 				setIsLoading(false);
 			}
 		};
 
 		getRoutine();
+		getDay();
 	}, [day]);
 
 	return (
@@ -41,12 +69,15 @@ const RoutineDay = () => {
 				) : (
 					<>
 						<h2 className="routine__day">
-							Day {day}
-							{errorMsg ? "" : `: ${routine.name}`}
+							{dayName}
+							{error ? "" : `: ${routine.name}`}
 						</h2>
 						<div className="exercises">
-							{errorMsg ? (
-								<p>{errorMsg}</p>
+							{error && error?.from == "routines" ? (
+								<p>
+									{error.message}.{" "}
+									<Link to={`/routines/${day}/create`}>Add one here</Link>
+								</p>
 							) : (
 								<>
 									<div className="exercises__title">
@@ -59,18 +90,24 @@ const RoutineDay = () => {
 										</Link>
 									</div>
 									<div className="exercises__container">
-										{routineExercises?.length > 0 ? (
-											routineExercises.map((exercise) => (
-												<Exercise
-													key={exercise.exercise_id}
-													name={exercise.exercise_name}
-													muscleGroup={exercise.muscle_group}
-													sets={exercise.sets}
-													reps={exercise.reps}
-												/>
-											))
+										{error ? (
+											<p>{error.message}</p>
 										) : (
-											<p>No exercises available</p>
+											<>
+												{routineExercises?.length > 0 ? (
+													routineExercises.map((exercise) => (
+														<Exercise
+															key={exercise.exercise_id}
+															name={exercise.exercise_name}
+															muscleGroup={exercise.muscle_group}
+															sets={exercise.sets}
+															reps={exercise.reps}
+														/>
+													))
+												) : (
+													<p>No exercises available</p>
+												)}
+											</>
 										)}
 									</div>
 								</>
