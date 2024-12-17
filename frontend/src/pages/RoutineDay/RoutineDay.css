@@ -1,12 +1,26 @@
-.exercises {
-	display: flex;
-	flex-direction: column;
+.routines-card {
+	background-color: #fff;
+	padding: 24px;
+	border-radius: 10px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.routine__day {
+	font-size: 1.5rem;
+	color: #333;
+	margin-bottom: 16px;
 }
 
 .exercises__title {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	margin-bottom: 16px;
+}
+
+.exercises__title h3 {
+	font-size: 1.3rem;
+	margin: 0;
 }
 
 .exercises__title-add {
@@ -19,4 +33,34 @@
 }
 .exercises__title-add:hover {
 	color: var(--cyan);
+}
+
+.exercises__container {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+/* Back to routines */
+.back-to-routines {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	text-decoration: none;
+	color: var(--dark-blue); /* Replace with your preferred color */
+	padding: 0.5rem 1rem;
+	background-color: var(--white); /* Replace with your preferred color */
+	border-radius: 5px;
+	font-weight: bold;
+	transition: all 0.2s;
+	width: fit-content;
+	margin-bottom: 1rem;
+}
+
+.back-to-routines:hover {
+	background-color: var(--light-gray);
+}
+
+.back-icon {
+	font-size: 1.5rem;
 }

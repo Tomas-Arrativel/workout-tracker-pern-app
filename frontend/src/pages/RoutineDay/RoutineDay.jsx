@@ -6,7 +6,7 @@ import {
 	getRoutinesByDay,
 } from "../../api/api";
 
-import { IoMdAddCircle } from "react-icons/io";
+import { IoMdAddCircle, IoMdArrowRoundBack } from "react-icons/io";
 import Exercise from "../../components/Exercise/Exercise";
 
 import "./RoutineDay.css";
@@ -62,6 +62,12 @@ const RoutineDay = () => {
 	return (
 		<div className="routines">
 			<div className="routines-card">
+				{/* Beautified Back Link */}
+				<Link to={"/routines"} className="back-to-routines">
+					<IoMdArrowRoundBack className="back-icon" />
+					<span>Back to Routines</span>
+				</Link>
+
 				{isLoading ? (
 					<div className="loader-small">
 						Loading please wait...<i className="spinner"></i>
@@ -73,7 +79,7 @@ const RoutineDay = () => {
 							{error ? "" : `: ${routine.name}`}
 						</h2>
 						<div className="exercises">
-							{error && error?.from == "routines" ? (
+							{error && error?.from === "routines" ? (
 								<p>
 									{error.message}.{" "}
 									<Link to={`/routines/${day}/create`}>Add one here</Link>
