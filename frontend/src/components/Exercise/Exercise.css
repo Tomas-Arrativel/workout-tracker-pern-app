@@ -4,13 +4,13 @@
 	padding: 16px;
 	margin-bottom: 12px;
 	background-color: #f9f9f9;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 4px 12px var(--light-gray);
 	transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .exercise-card:hover {
 	transform: translateY(-4px);
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .exercise-header {
@@ -26,8 +26,8 @@
 }
 
 .exercise-muscle-group {
-	background-color: #e0e0e0;
-	color: #555;
+	background-color: var(--light-gray);
+	color: var(--dark-blue);
 	padding: 4px 8px;
 	border-radius: 4px;
 	font-size: 0.9rem;
@@ -38,7 +38,7 @@
 	display: flex;
 	gap: 1rem;
 	font-size: 0.95rem;
-	color: #333;
+	color: var(--dark-blue);
 }
 
 .exercise-details p {

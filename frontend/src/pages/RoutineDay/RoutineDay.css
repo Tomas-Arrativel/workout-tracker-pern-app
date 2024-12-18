@@ -1,13 +1,6 @@
-.routines-card {
-	background-color: #fff;
-	padding: 24px;
-	border-radius: 10px;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
 .routine__day {
 	font-size: 1.5rem;
-	color: #333;
+	color: var(--dark-blue);
 	margin-bottom: 16px;
 }
 
@@ -47,9 +40,9 @@
 	align-items: center;
 	gap: 0.5rem;
 	text-decoration: none;
-	color: var(--dark-blue); /* Replace with your preferred color */
+	color: var(--dark-blue);
 	padding: 0.5rem 1rem;
-	background-color: var(--white); /* Replace with your preferred color */
+	background-color: var(--white);
 	border-radius: 5px;
 	font-weight: bold;
 	transition: all 0.2s;

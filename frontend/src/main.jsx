@@ -9,6 +9,7 @@ import {
 	Register,
 	Routines,
 	RoutineDay,
+	AddExercise,
 } from "./pages/exports";
 import Navbar from "./components/Navbar/Navbar";
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
 					{
 						path: "/routines/:day",
 						element: <RoutineDay />,
+					},
+					{
+						path: "/routines/:day/add",
+						element: <AddExercise />,
 					},
 				],
 			},

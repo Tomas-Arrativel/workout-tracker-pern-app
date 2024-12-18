@@ -18,7 +18,7 @@ export const getCurrentUser = async () =>
 export const logout = async () =>
 	await API.get(`/users/logout`, { withCredentials: true });
 
-// Days
+// Days APIs
 export const getDays = async () => await API.get(`/days`);
 export const getDayById = async (day) => await API.get(`/days/${day}`);
 
@@ -34,3 +34,10 @@ export const getRoutineExercisesByDay = async (day) =>
 
 export const getExercisesNames = async (exId) =>
 	await API.get(`/exercises/${exId}`);
+
+// Exercises APIs
+export const getMuscleGroups = async () =>
+	await API.get(`/exercises/muscles/groups`);
+
+export const getExercisesByMuscle = async (muscleGroup) =>
+	await API.post(`/exercises/muscles/filtered`, { muscleGroup });
