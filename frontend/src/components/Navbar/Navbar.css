@@ -34,12 +34,12 @@
 }
 
 .register-btn {
-	color: var(--magenta);
+	color: var(--cyan);
 	transition: color 0.2s;
 }
 
 .register-btn:hover {
-	color: var(--light-gray) !important;
+	color: var(--magenta) !important;
 }
 
 .logout-btn {

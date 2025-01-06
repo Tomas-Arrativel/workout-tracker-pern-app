@@ -69,7 +69,11 @@ const AddExercise = () => {
 						>
 							<option value="">-- Select a Muscle Group --</option>
 							{muscleGroups?.map((group, i) => (
-								<option key={`muscle-group-${i}`} value={group.muscle_group}>
+								<option
+									className="option-muscle-group"
+									key={`muscle-group-${i}`}
+									value={group.muscle_group}
+								>
 									{group.muscle_group}
 								</option>
 							))}
@@ -86,10 +90,12 @@ const AddExercise = () => {
 										<div className="exercise-item-texts">
 											<h4>{exercise.name}</h4>
 											<p>{exercise.description}</p>
-											<p>Muscle Group: {exercise.muscle_group}</p>
+											<p>
+												<span>Muscle Group:</span> {exercise.muscle_group}
+											</p>
 										</div>
 										<button className="exercise-item-btn">+</button>
-										{/* continue here tmrrow */}
+										{/* continue here tmrrow x*/}
 									</li>
 								))}
 							</ul>

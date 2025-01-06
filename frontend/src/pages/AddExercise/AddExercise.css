@@ -7,11 +7,12 @@
 }
 
 .add-exercise {
-	min-width: 600px;
+	width: 600px;
 	padding: 1rem;
 	background-color: #fff;
 	border-radius: 8px;
 	box-shadow: 0 4px 12px var(--light-gray);
+	margin: 1rem 0;
 }
 
 .add-exercise__title {
@@ -39,6 +40,7 @@
 	font-size: 1rem;
 	cursor: pointer;
 	background-color: var(--white);
+	text-transform: capitalize;
 }
 
 .selected-info {
@@ -86,7 +88,15 @@
 	background-color: var(--dark-blue);
 	color: var(--white);
 	font-size: 1.5rem;
-	width: 30px;
+	min-width: 30px;
 	min-height: 70px;
 	cursor: pointer;
+}
+
+.option-muscle-group {
+	text-transform: capitalize;
+}
+
+.exercise-item-texts p span {
+	font-weight: 700;
 }
