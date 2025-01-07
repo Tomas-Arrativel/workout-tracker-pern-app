@@ -44,8 +44,6 @@ const AddExercise = () => {
 		} finally {
 			setIsLoadingExercises(false);
 		}
-
-		console.log(selectedMuscleExercises);
 	};
 
 	return (
