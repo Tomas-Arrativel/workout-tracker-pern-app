@@ -10,6 +10,7 @@ import {
 	Routines,
 	RoutineDay,
 	AddExercise,
+	AddExerciseForm,
 } from "./pages/exports";
 import Navbar from "./components/Navbar/Navbar";
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -42,6 +43,7 @@ const router = createBrowserRouter([
 						path: "/dashboard",
 						element: <Dashboard />,
 					},
+					// Routines
 					{
 						path: "/routines",
 						element: <Routines />,
@@ -50,9 +52,14 @@ const router = createBrowserRouter([
 						path: "/routines/:day",
 						element: <RoutineDay />,
 					},
+					// Add exercises to routine
 					{
 						path: "/routines/:day/add",
 						element: <AddExercise />,
+					},
+					{
+						path: "/routines/:day/add/:exercise",
+						element: <AddExerciseForm />,
 					},
 				],
 			},

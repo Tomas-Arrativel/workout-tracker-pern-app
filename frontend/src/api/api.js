@@ -32,10 +32,10 @@ export const getRoutinesByDay = async (day) =>
 export const getRoutineExercisesByDay = async (day) =>
 	await API.get(`/r-exercises/${day}`, { withCredentials: true });
 
+// Exercises APIs
 export const getExercisesNames = async (exId) =>
 	await API.get(`/exercises/${exId}`);
 
-// Exercises APIs
 export const getMuscleGroups = async () =>
 	await API.get(`/exercises/muscles/groups`);
 

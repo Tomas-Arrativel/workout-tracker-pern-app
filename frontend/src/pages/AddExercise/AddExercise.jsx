@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "./AddExercise.css";
-import { getExercisesByMuscle, getMuscleGroups } from "../../api/api";
+import {
+	getExercisesByMuscle,
+	getMuscleGroups,
+	getRoutineExercisesByDay,
+} from "../../api/api";
+import { useNavigate, useParams } from "react-router-dom";
 
 const AddExercise = () => {
+	const { day } = useParams();
+	const navigate = useNavigate();
+
 	const [muscleGroups, setMuscleGroups] = useState([]);
 
 	const [selectedMuscle, setSelectedMuscle] = useState("");
@@ -46,6 +54,34 @@ const AddExercise = () => {
 		}
 	};
 
+	const handleAddExercise = async (e) => {
+		const exerciseId = e.target.getAttribute("data-exerciseid");
+		if (exerciseId) {
+			try {
+				// Get exercises from the api
+				const exercisesResults = await getRoutineExercisesByDay(day);
+
+				// Check if the exercise is already inside of the routine
+				if (exercisesResults?.data.error === false) {
+					const exerciseExists = exercisesResults.data.exercises.some(
+						(exercise) => exercise.exercise_id == exerciseId
+					);
+
+					if (exerciseExists) {
+						return alert(
+							"This exercise is already added for the selected routine!"
+						);
+					}
+				}
+
+				// Redirect to the add page
+				navigate(`/routines/${day}/add/${exerciseId}`);
+			} catch (error) {
+				console.error("Error fetching exercises:", error);
+			}
+		}
+	};
+
 	return (
 		<div className="add-exercise-container">
 			<div className="add-exercise">
@@ -54,7 +90,9 @@ const AddExercise = () => {
 				</h2>
 
 				{isLoading ? (
-					<p>Loading muscle groups...</p>
+					<div className="loader-small">
+						Loading muscle groups...<i className="spinner"></i>
+					</div>
 				) : error ? (
 					<p className="error">{error}</p>
 				) : (
@@ -92,13 +130,19 @@ const AddExercise = () => {
 												<span>Muscle Group:</span> {exercise.muscle_group}
 											</p>
 										</div>
-										<button className="exercise-item-btn">+</button>
+										<button
+											className="exercise-item-btn"
+											data-exerciseid={exercise.exercise_id}
+											onClick={handleAddExercise}
+										>
+											+
+										</button>
 										{/* continue here tmrrow x*/}
 									</li>
 								))}
 							</ul>
 						) : (
-							<p className="selected-info">You selected: {selectedMuscle}</p>
+							""
 						)}
 					</div>
 				)}
