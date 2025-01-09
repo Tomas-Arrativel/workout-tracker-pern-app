@@ -41,3 +41,5 @@ export const getMuscleGroups = async () =>
 
 export const getExercisesByMuscle = async (muscleGroup) =>
 	await API.post(`/exercises/muscles/filtered`, { muscleGroup });
+
+// addexercise api call will go here!
