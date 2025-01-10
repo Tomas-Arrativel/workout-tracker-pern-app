@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from "react";
 import "./AddExerciseForm.css";
 
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { getExercisesNames } from "../../api/api";
+import {
+	addExerciseToRoutine,
+	getExercisesNames,
+	getRoutinesByDay,
+} from "../../api/api";
 
 const AddExerciseForm = () => {
 	const { day, exercise } = useParams();
+	const navigate = useNavigate();
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [exerciseData, setExerciseData] = useState({});
 	const [error, setError] = useState();
-	const [sets, setSets] = useState(3); // Default value for sets
-	const [reps, setReps] = useState(8); // Default value for reps
+	const [sets, setSets] = useState(3);
+	const [reps, setReps] = useState(8);
 
 	useEffect(() => {
 		// Get exercise data
@@ -24,7 +29,7 @@ const AddExerciseForm = () => {
 				setExerciseData(results.data);
 			} catch (err) {
 				// Set the error
-				setError(err.response?.data || "Something went wrong");
+				setError(err.response?.data.message || "Something went wrong");
 			} finally {
 				setIsLoading(false);
 			}
@@ -33,10 +38,29 @@ const AddExerciseForm = () => {
 		getExercise();
 	}, []);
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		alert(`Exercise: ${exerciseData.name}\nSets: ${sets}\nReps: ${reps}`);
-		// You can replace the alert with an API call to save the data
+
+		setIsLoading(true);
+		try {
+			const resultRoutine = await getRoutinesByDay(day);
+
+			if (resultRoutine != null && resultRoutine?.data.error === false) {
+				await addExerciseToRoutine(
+					resultRoutine?.data.routine.routine_id,
+					exercise,
+					sets,
+					reps
+				);
+
+				navigate(`/routines/${day}`);
+			}
+		} catch (err) {
+			// Set the error
+			setError(err.response?.data.message || "Something went wrong");
+		} finally {
+			setIsLoading(false);
+		}
 	};
 
 	return (
@@ -57,7 +81,6 @@ const AddExerciseForm = () => {
 							Add <span>{exerciseData.name}</span> to routine
 						</h2>
 
-						{/* ✅ Sets and Reps Selection Form */}
 						<form onSubmit={handleSubmit} className="sets-reps-form">
 							<div className="sets-reps-container">
 								{/* Sets Selector */}
@@ -95,7 +118,13 @@ const AddExerciseForm = () => {
 								</div>
 							</div>
 
-							<button type="submit" className="add-exercise-btn">
+							{error != undefined ? <p className="errorMsg">{error}</p> : ""}
+
+							<button
+								type="submit"
+								className="add-exercise-btn"
+								disabled={isLoading || error != undefined}
+							>
 								Add Exercise
 							</button>
 						</form>

@@ -78,6 +78,7 @@ const RoutineDay = () => {
 							{dayName}
 							{error ? "" : `: ${routine.name}`}
 						</h2>
+						{/* Add a 3 dots icon to edit or delete an exercise */}
 						<div className="exercises">
 							{error && error?.from === "routines" ? (
 								<p>

@@ -48,7 +48,7 @@
 }
 
 .error {
-	color: red;
+	color: var(--magenta);
 	text-align: center;
 	margin-top: 1rem;
 }
