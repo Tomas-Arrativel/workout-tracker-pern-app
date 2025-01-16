@@ -7,6 +7,7 @@ import {
 } from "../../api/api";
 
 import { IoMdAddCircle, IoMdArrowRoundBack } from "react-icons/io";
+import { SlOptionsVertical } from "react-icons/sl";
 import Exercise from "../../components/Exercise/Exercise";
 
 import "./RoutineDay.css";
@@ -62,11 +63,15 @@ const RoutineDay = () => {
 	return (
 		<div className="routines">
 			<div className="routines-card">
-				{/* Beautified Back Link */}
-				<Link to={"/routines"} className="back-to-routines">
-					<IoMdArrowRoundBack className="back-icon" />
-					<span>Back to Routines</span>
-				</Link>
+				<div>
+					<Link to={"/routines"} className="back-to-routines">
+						<IoMdArrowRoundBack className="back-icon" />
+						<span>Back to Routines</span>
+					</Link>
+					<button>
+						<SlOptionsVertical />
+					</button>
+				</div>
 
 				{isLoading ? (
 					<div className="loader-small">
