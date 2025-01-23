@@ -63,12 +63,13 @@ const RoutineDay = () => {
 	return (
 		<div className="routines">
 			<div className="routines-card">
-				<div>
+				<div className="routine-card-btns">
 					<Link to={"/routines"} className="back-to-routines">
 						<IoMdArrowRoundBack className="back-icon" />
 						<span>Back to Routines</span>
 					</Link>
-					<button>
+					{/* Add a 3 dots icon to edit or delete an exercise */}
+					<button className="options-btn">
 						<SlOptionsVertical />
 					</button>
 				</div>
@@ -83,7 +84,6 @@ const RoutineDay = () => {
 							{dayName}
 							{error ? "" : `: ${routine.name}`}
 						</h2>
-						{/* Add a 3 dots icon to edit or delete an exercise */}
 						<div className="exercises">
 							{error && error?.from === "routines" ? (
 								<p>

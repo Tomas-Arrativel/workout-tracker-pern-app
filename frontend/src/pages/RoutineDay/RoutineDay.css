@@ -1,7 +1,7 @@
 .routine__day {
 	font-size: 1.5rem;
 	color: var(--dark-blue);
-	margin-bottom: 16px;
+	margin-bottom: 1rem;
 }
 
 .exercises__title {
@@ -56,4 +56,31 @@
 
 .back-icon {
 	font-size: 1.5rem;
+}
+
+.routine-card-btns {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.options-btn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0.4rem;
+	background-color: var();
+	cursor: pointer;
+	font-size: 1.3rem;
+	background-color: var(--white);
+	transition: background-color 0.2s;
+}
+.options-btn:hover {
+	background-color: var(--light-gray);
+}
+
+.options-btn svg {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
