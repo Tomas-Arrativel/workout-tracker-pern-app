@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
 	getDayById,
@@ -20,6 +20,8 @@ const RoutineDay = () => {
 	const [dayName, setDayName] = useState();
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState();
+	const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State for dropdown visibility
+	const dropdownRef = useRef(null); // Ref to track the dropdown element
 
 	useEffect(() => {
 		// Create the function to get the routine info
@@ -60,6 +62,29 @@ const RoutineDay = () => {
 		getDay();
 	}, [day]);
 
+	// Toggle dropdown visibility
+	const toggleDropdown = () => {
+		setIsDropdownOpen((prev) => !prev);
+	};
+
+	// Close dropdown if clicking outside
+	useEffect(() => {
+		const handleClickOutside = (event) => {
+			// Check if the click is outside the dropdown
+			if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+				setIsDropdownOpen(false);
+			}
+		};
+
+		// Add event listener for clicks on the document
+		document.addEventListener("mousedown", handleClickOutside);
+
+		// Cleanup event listener on component unmount
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, []);
+
 	return (
 		<div className="routines">
 			<div className="routines-card">
@@ -69,9 +94,20 @@ const RoutineDay = () => {
 						<span>Back to Routines</span>
 					</Link>
 					{/* Add a 3 dots icon to edit or delete an exercise */}
-					<button className="options-btn">
-						<SlOptionsVertical />
-					</button>
+					<div className="dropdown-container" ref={dropdownRef}>
+						<button className="options-btn" onClick={toggleDropdown}>
+							<SlOptionsVertical />
+						</button>
+						{isDropdownOpen && (
+							<div className="dropdown-menu">
+								{/* New page where i can edit title, day and exercises */}
+								<Link to={`routine/${day}/edit`} className="dropdown-item">
+									Edit
+								</Link>
+								<button className="dropdown-item delete">Delete</button>
+							</div>
+						)}
+					</div>
 				</div>
 
 				{isLoading ? (
