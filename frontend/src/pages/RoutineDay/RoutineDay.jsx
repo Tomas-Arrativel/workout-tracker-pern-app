@@ -6,7 +6,7 @@ import {
 	getRoutinesByDay,
 } from "../../api/api";
 
-import { IoMdAddCircle, IoMdArrowRoundBack } from "react-icons/io";
+import { IoMdAddCircle, IoMdArrowRoundBack, IoMdClose } from "react-icons/io";
 import { SlOptionsVertical } from "react-icons/sl";
 import Exercise from "../../components/Exercise/Exercise";
 
@@ -21,6 +21,7 @@ const RoutineDay = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState();
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State for dropdown visibility
+	const [isModalOpen, setIsModalOpen] = useState(false);
 	const dropdownRef = useRef(null); // Ref to track the dropdown element
 
 	useEffect(() => {
@@ -85,6 +86,8 @@ const RoutineDay = () => {
 		};
 	}, []);
 
+	const toggleModal = () => setIsModalOpen((prev) => !prev);
+
 	return (
 		<div className="routines">
 			<div className="routines-card">
@@ -101,9 +104,9 @@ const RoutineDay = () => {
 						{isDropdownOpen && (
 							<div className="dropdown-menu">
 								{/* New page where i can edit title, day and exercises */}
-								<Link to={`routine/${day}/edit`} className="dropdown-item">
+								<button className="dropdown-item" onClick={toggleModal}>
 									Edit
-								</Link>
+								</button>
 								<button className="dropdown-item delete">Delete</button>
 							</div>
 						)}
@@ -164,6 +167,35 @@ const RoutineDay = () => {
 					</>
 				)}
 			</div>
+
+			{isModalOpen && (
+				<div className="modal">
+					<div className="modal-content">
+						<div className="modal-header">
+							<h2>Edit Routine</h2>
+							<IoMdClose className="close-btn" onClick={toggleModal} />
+						</div>
+						<div className="modal-body">
+							<label htmlFor="name">Routine's name</label>
+							<input type="text" id="name" />
+							<label htmlFor="day">Day</label>
+							<select id="day">
+								{/* {daysOfWeek.map((day) => (
+								<option key={day} value={day}>
+									{day}
+								</option>
+							))} */}
+							</select>
+						</div>
+						<div className="modal-footer">
+							<button className="cancel-btn" onClick={toggleModal}>
+								Close
+							</button>
+							<button className="save-btn">Edit</button>
+						</div>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 };
